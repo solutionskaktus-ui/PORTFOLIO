@@ -37,7 +37,7 @@
   #hud .cat{font-size:13px;color:#7d86a0;margin-top:2px}
   #drive-hint{position:fixed;right:30px;bottom:30px;z-index:20;font-size:12.5px;color:#7d86a0;opacity:0;transition:.5s}
   #drive-hint.on{opacity:1}
-  #case{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:30px;opacity:0;pointer-events:none;transition:.45s cubic-bezier(.16,1,.3,1);background:rgba(4,5,10,.72);backdrop-filter:blur(10px)}
+  #case{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:30px;opacity:0;pointer-events:none;transition:.45s cubic-bezier(.16,1,.3,1);background:rgba(4,5,10,.72);backdrop-filter:blur(10px)}
   #case.on{opacity:1;pointer-events:auto}
   .case-inner{width:min(1040px,100%);max-height:90vh;overflow:auto;display:block;background:linear-gradient(160deg,rgba(16,22,28,.97),rgba(9,12,18,.98));border:1px solid rgba(78,240,160,.28);border-radius:18px;transform:translateY(24px) scale(.98);transition:.45s cubic-bezier(.16,1,.3,1);box-shadow:0 30px 80px rgba(0,0,0,.6)}
   #case.on .case-inner{transform:none}
@@ -101,6 +101,7 @@
     <div class="road-btn" data-branch="branding"><div class="dir">&#8592; Levo</div><div class="ttl">Branding</div><div class="ds">Vizuelni identiteti</div></div>
     <div class="road-btn" data-branch="social"><div class="dir">Desno &#8594;</div><div class="ttl">Social Media Design</div><div class="ds">Meta Ads &amp; kampanje</div></div>
   </div>
+  <div style="margin-top:30px"><button id="view2d" style="cursor:pointer;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#cfd6e4;padding:11px 22px;border-radius:30px;font-size:14px;letter-spacing:.04em">&#9638; 2D prikaz (radi na svakom uredjaju)</button></div>
 </div>
 <div id="hud"><div class="num"></div><div class="name"></div><div class="cat"></div></div>
 <div id="drive-hint">Skroluj / strelice za gas i ko&#269;nicu &#183; klikni hologram za case study</div>
@@ -438,8 +439,8 @@ function build(){
   const dm=new THREE.PointsMaterial({size:.6,map:softTexture('rgba(200,220,255,.9)'),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,color:0xffffff,fog:false});dm.toneMapped=false;
   dust=new THREE.Points(fg,dm);scene.add(dust);
   carObj=spaceship();carObj.position.set(0,0,7);scene.add(carObj);
-  (function(){var N=90,pg=new THREE.BufferGeometry(),pos=new Float32Array(N*3),spd=new Float32Array(N);for(var i=0;i<N;i++){pos[i*3]=(Math.random()-0.5)*1.9;pos[i*3+1]=-0.05+(Math.random()-0.5)*0.3;pos[i*3+2]=2.5+Math.random()*3.5;spd[i]=0.08+Math.random()*0.16;}pg.setAttribute('position',new THREE.BufferAttribute(pos,3));var pm=new THREE.PointsMaterial({color:0x9af0ff,size:0.15,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,map:softTexture(0.5)});pm.toneMapped=false;var sp=new THREE.Points(pg,pm);carObj.add(sp);carObj.userData.sparkSys={mesh:sp,pos:pos,spd:spd,N:N,attr:pg.attributes.position};})();
-  (function(){var plaza=new THREE.Mesh(new THREE.CircleGeometry(15,48),new THREE.MeshBasicMaterial({color:0x141822}));plaza.rotation.x=-Math.PI/2;plaza.position.set(0,0.02,3);scene.add(plaza);var pr=new THREE.Mesh(new THREE.RingGeometry(14.2,14.7,64),new THREE.MeshBasicMaterial({color:HOLO,transparent:true,opacity:.45,side:THREE.DoubleSide}));pr.material.toneMapped=false;pr.rotation.x=-Math.PI/2;pr.position.set(0,0.05,3);scene.add(pr);})();
+  (function(){try{var N=90,pg=new THREE.BufferGeometry(),pos=new Float32Array(N*3),spd=new Float32Array(N);for(var i=0;i<N;i++){pos[i*3]=(Math.random()-0.5)*1.9;pos[i*3+1]=-0.05+(Math.random()-0.5)*0.3;pos[i*3+2]=2.5+Math.random()*3.5;spd[i]=0.08+Math.random()*0.16;}pg.setAttribute('position',new THREE.BufferAttribute(pos,3));var pm=new THREE.PointsMaterial({color:0x9af0ff,size:0.15,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,map:softTexture(0.5)});pm.toneMapped=false;var sp=new THREE.Points(pg,pm);carObj.add(sp);carObj.userData.sparkSys={mesh:sp,pos:pos,spd:spd,N:N,attr:pg.attributes.position};}catch(_e){console.warn('spark',_e);}})();
+  (function(){try{var plaza=new THREE.Mesh(new THREE.CircleGeometry(15,48),new THREE.MeshBasicMaterial({color:0x141822}));plaza.rotation.x=-Math.PI/2;plaza.position.set(0,0.02,3);scene.add(plaza);var pr=new THREE.Mesh(new THREE.RingGeometry(14.2,14.7,64),new THREE.MeshBasicMaterial({color:HOLO,transparent:true,opacity:.45,side:THREE.DoubleSide}));pr.material.toneMapped=false;pr.rotation.x=-Math.PI/2;pr.position.set(0,0.05,3);scene.add(pr);}catch(_e){console.warn('plaza',_e);}})();
   const tgt=new THREE.Object3D();tgt.position.set(0,0,-12);carObj.add(tgt);
   [-0.6,0.6].forEach(function(sx){const sp=new THREE.SpotLight(0xbfe6ff,2.4,40,0.5,0.5,1.3);sp.position.set(sx,.7,-2.4);carObj.add(sp);sp.target=tgt;});
 }
@@ -472,7 +473,7 @@ function resetAll(){clearBranch();closeCase();state='idle';dist=0;vel=0;curYaw=0
   carObj.position.set(0,0,7);carObj.rotation.set(0,0,0);
   document.getElementById('intro').classList.remove('gone');document.getElementById('hud').classList.remove('on');
   document.getElementById('drive-hint').classList.remove('on');document.getElementById('reset').classList.remove('on');document.getElementById('endcard').classList.remove('on');}
-document.querySelectorAll('.road-btn').forEach(function(b){b.addEventListener('click',function(){choose(b.dataset.branch);});});
+document.querySelectorAll('.road-btn').forEach(function(b){b.addEventListener('click',function(){if(built3d){choose(b.dataset.branch);}else{alert('3D ne moze da se pokrene:\n'+((window.__3dErr&&window.__3dErr.message)?window.__3dErr.message:'nepoznato')+'\n\nOtvaram 2D prikaz.');openClassic();}});});var _v2=document.getElementById('view2d');if(_v2)_v2.addEventListener('click',openClassic);
 document.getElementById('reset').addEventListener('click',resetAll);
 addEventListener('wheel',function(e){if(state==='driving')vel+=e.deltaY*0.006;},{passive:true});
 let ty=0;addEventListener('touchstart',function(e){ty=e.touches[0].clientY;},{passive:true});
@@ -552,8 +553,8 @@ function closeClassic(){document.getElementById('classic-view').classList.remove
 document.getElementById('classic').addEventListener('click',openClassic);
 document.getElementById('classic-x').addEventListener('click',start3D);
 var built3d=false;
-function start3D(){if(typeof THREE==='undefined'||!window.WebGLRenderingContext){alert('3D nije podrzan na ovom uredjaju (WebGL nedostupan).');return;}if(!built3d){try{build();animate(0);built3d=true;}catch(e){alert('3D se ne moze pokrenuti na ovoj grafici.');return;}}closeClassic();}
-function boot(){document.getElementById('loader').classList.add('gone');openClassic();}
+function start3D(){if(typeof THREE==='undefined'||!window.WebGLRenderingContext){alert('3D nije podrzan na ovom uredjaju (WebGL nedostupan).');return;}if(!built3d){try{build();animate(0);built3d=true;}catch(e){alert('3D GRESKA: '+(e&&e.message?e.message:e)+'\n\n'+((e&&e.stack)?e.stack.split('\n').slice(0,4).join('\n'):''));console.error(e);return;}}closeClassic();}
+function boot(){document.getElementById('loader').classList.add('gone');var I=document.getElementById('intro');if(I)I.classList.remove('gone');if(typeof THREE!=='undefined'&&window.WebGLRenderingContext){try{build();animate(0);built3d=true;}catch(e){built3d=false;window.__3dErr=e;console.error(e);}}}
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){return document.fonts&&document.fonts.load('500 80px "Clash Display"').catch(function(){});}).finally(function(){setTimeout(boot,60);});
 </script>
 </body>
