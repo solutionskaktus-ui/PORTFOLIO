@@ -116,7 +116,7 @@
   <button class="ec-back" id="ec-back">&#8635; Nazad na po&#269;etak</button>
 </div></div>
 <div id="fail"><div><h2 style="font-family:Clash Display">WebGL nije dostupan</h2></div></div>
-<div id="classic-view"><button id="classic-x" class="topbtn">&#10005; Zatvori</button><h2>Radovi</h2><div class="cgrid" id="cgrid"></div></div>
+<div id="classic-view"><button id="classic-x" class="topbtn">&#9654; 3D prikaz</button><h2>Radovi</h2><p style="max-width:1100px;margin:-14px auto 22px;color:#8a93a8;font-size:14px">Klikni rad za detalje. Za interaktivni svemirski prikaz klikni „▶ 3D prikaz“ gore (radi na jacoj grafici).</p><div class="cgrid" id="cgrid"></div></div>
 <div id="loader"><div class="ring"></div><div class="lt">Učitavanje sveta…</div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -265,7 +265,7 @@ function makeHologram(p,d,side,parent){
   const beam=new THREE.Mesh(new THREE.CylinderGeometry(pw*0.4,0.6,bottomY-0.4,16,1,true),beamMat);beam.position.y=0.44+(bottomY-0.4)/2;grp.add(beam);
   const inner=new THREE.Group();grp.add(inner);
   var acc=p.color||HOLO;
-  const slab=new THREE.Mesh(new THREE.PlaneGeometry(pw+0.5,ph+0.5),new THREE.MeshStandardMaterial({color:0x090b11,metalness:.55,roughness:.5}));slab.position.set(0,centerY,-0.08);inner.add(slab);
+  const slab=new THREE.Mesh(new THREE.PlaneGeometry(pw+0.5,ph+0.5),new THREE.MeshBasicMaterial({color:0x0b0d14}));slab.position.set(0,centerY,-0.08);inner.add(slab);
   const edgeMat=new THREE.MeshBasicMaterial({color:acc,transparent:true,opacity:0.45,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending});edgeMat.toneMapped=false;
   const edge=new THREE.Mesh(new THREE.PlaneGeometry(pw+0.62,ph+0.62),edgeMat);edge.position.set(0,centerY,-0.12);inner.add(edge);
   const glowMat=new THREE.MeshBasicMaterial({color:acc,transparent:true,opacity:0.13,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending});glowMat.toneMapped=false;
@@ -276,14 +276,12 @@ function makeHologram(p,d,side,parent){
   else{mat=new THREE.MeshBasicMaterial({map:billboardTexture(p),side:THREE.DoubleSide});}
   const panel=new THREE.Mesh(new THREE.PlaneGeometry(pw,ph),mat);panel.position.set(0,centerY,0);
   panel.userData=Object.assign({},p,{d:d});inner.add(panel);billboards.push(panel);
-  const refl=new THREE.Mesh(new THREE.PlaneGeometry(pw,ph),new THREE.MeshBasicMaterial({color:0x111111,transparent:true,opacity:0.14,side:THREE.DoubleSide,depthWrite:false}));refl.position.set(0,bottomY-ph/2-0.12,0.01);refl.scale.y=-1;inner.add(refl);
-  if(cimg)new THREE.TextureLoader().load(cimg,function(tex){if(THREE.sRGBEncoding)tex.encoding=THREE.sRGBEncoding;refl.material.map=tex;refl.material.color.set(0xffffff);refl.material.needsUpdate=true;});
   var mock=null;
   if(p.mockup){mock=new THREE.Mesh(new THREE.PlaneGeometry(pw*0.46,pw*0.46),new THREE.MeshBasicMaterial({color:0x111111,transparent:true,side:THREE.DoubleSide}));
     new THREE.TextureLoader().load(p.mockup,function(tex){if(THREE.sRGBEncoding)tex.encoding=THREE.sRGBEncoding;tex.anisotropy=8;var a=tex.image.width/tex.image.height,w=pw*0.5;mock.geometry=new THREE.PlaneGeometry(w,w/a);mock.material.map=tex;mock.material.color.set(0xffffff);mock.material.needsUpdate=true;});
     mock.position.set(pw/2+1.35,centerY-ph*0.16,1.5);inner.add(mock);
     var mglow=new THREE.Mesh(new THREE.PlaneGeometry(pw*0.7,pw*0.7),new THREE.MeshBasicMaterial({color:acc,transparent:true,opacity:0.1,depthWrite:false,blending:THREE.AdditiveBlending}));mglow.material.toneMapped=false;mglow.position.set(pw/2+1.35,centerY-ph*0.16,1.42);inner.add(mglow);}
-  const light=new THREE.PointLight(acc,1.4,34,2);light.position.set(0,centerY*0.6,2.0);grp.add(light);
+  const light=null;
   parent.add(grp);
   holos.push({inner:inner,panelMat:mat,glowMat:glowMat,beamMat:beamMat,light:light,d:d,phase:Math.random()*6.28,mock:mock});
 }
@@ -397,8 +395,8 @@ function clearBranch(){billboards=[];holos=[];roadFX=[];branchTickers=[];portalD
 function build(){
   scene=new THREE.Scene();scene.background=new THREE.Color(C.dark);scene.fog=new THREE.FogExp2(0x05060c,0.0042);
   camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,4000);
-  renderer=new THREE.WebGLRenderer({canvas:document.getElementById('c'),antialias:true});
-  curDpr=Math.min(devicePixelRatio,2);renderer.setPixelRatio(curDpr);renderer.setSize(innerWidth,innerHeight);
+  renderer=new THREE.WebGLRenderer({canvas:document.getElementById('c'),antialias:false});
+  curDpr=Math.min(devicePixelRatio,1.5);renderer.setPixelRatio(curDpr);renderer.setSize(innerWidth,innerHeight);
   if(THREE.sRGBEncoding)renderer.outputEncoding=THREE.sRGBEncoding;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.22;
   SCAN_TEX=scanlineTexture();TAIL_TEX=tailTexture();
@@ -441,7 +439,7 @@ function build(){
   dust=new THREE.Points(fg,dm);scene.add(dust);
   carObj=spaceship();carObj.position.set(0,0,7);scene.add(carObj);
   (function(){var N=90,pg=new THREE.BufferGeometry(),pos=new Float32Array(N*3),spd=new Float32Array(N);for(var i=0;i<N;i++){pos[i*3]=(Math.random()-0.5)*1.9;pos[i*3+1]=-0.05+(Math.random()-0.5)*0.3;pos[i*3+2]=2.5+Math.random()*3.5;spd[i]=0.08+Math.random()*0.16;}pg.setAttribute('position',new THREE.BufferAttribute(pos,3));var pm=new THREE.PointsMaterial({color:0x9af0ff,size:0.15,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,map:softTexture(0.5)});pm.toneMapped=false;var sp=new THREE.Points(pg,pm);carObj.add(sp);carObj.userData.sparkSys={mesh:sp,pos:pos,spd:spd,N:N,attr:pg.attributes.position};})();
-  (function(){var plaza=new THREE.Mesh(new THREE.CircleGeometry(15,48),new THREE.MeshStandardMaterial({color:0x171a24,metalness:.5,roughness:.6}));plaza.rotation.x=-Math.PI/2;plaza.position.set(0,0.02,3);scene.add(plaza);var pr=new THREE.Mesh(new THREE.RingGeometry(14.2,14.7,64),new THREE.MeshBasicMaterial({color:HOLO,transparent:true,opacity:.45,side:THREE.DoubleSide}));pr.material.toneMapped=false;pr.rotation.x=-Math.PI/2;pr.position.set(0,0.05,3);scene.add(pr);})();
+  (function(){var plaza=new THREE.Mesh(new THREE.CircleGeometry(15,48),new THREE.MeshBasicMaterial({color:0x141822}));plaza.rotation.x=-Math.PI/2;plaza.position.set(0,0.02,3);scene.add(plaza);var pr=new THREE.Mesh(new THREE.RingGeometry(14.2,14.7,64),new THREE.MeshBasicMaterial({color:HOLO,transparent:true,opacity:.45,side:THREE.DoubleSide}));pr.material.toneMapped=false;pr.rotation.x=-Math.PI/2;pr.position.set(0,0.05,3);scene.add(pr);})();
   const tgt=new THREE.Object3D();tgt.position.set(0,0,-12);carObj.add(tgt);
   [-0.6,0.6].forEach(function(sx){const sp=new THREE.SpotLight(0xbfe6ff,2.4,40,0.5,0.5,1.3);sp.position.set(sx,.7,-2.4);carObj.add(sp);sp.target=tgt;});
 }
@@ -504,7 +502,7 @@ function animate(t){raf=requestAnimationFrame(animate);if(!running)return;
   worldTickers.forEach(function(fn){fn(t);});
   if(carObj&&carObj.userData.eng){var esp=0.7+Math.min(1.5,Math.abs(vel)*1.3);carObj.userData.eng.forEach(function(f){f.scale.set(1,esp,1);f.material.opacity=0.12+Math.min(0.5,Math.abs(vel)*0.7);});}
   holos.forEach(function(o){const near=1-Math.min(1,Math.abs(dist-o.d)/30);o.inner.position.y=Math.sin(t*0.0015+o.phase)*0.13;if(o.mock){o.mock.rotation.y=Math.sin(t*0.0011+o.phase)*0.3;o.mock.position.z=1.5+Math.sin(t*0.0016+o.phase)*0.2;}
-    o.panelMat.opacity=0.9+Math.sin(t*0.02+o.phase)*0.04;o.glowMat.opacity=0.12+near*0.16+Math.sin(t*0.012+o.phase)*0.05;o.beamMat.opacity=0.03+near*0.05;o.light.intensity=1.0+near*1.8+Math.sin(t*0.004)*0.25;});
+    o.panelMat.opacity=0.9+Math.sin(t*0.02+o.phase)*0.04;o.glowMat.opacity=0.12+near*0.16+Math.sin(t*0.012+o.phase)*0.05;o.beamMat.opacity=0.03+near*0.05;if(o.light)o.light.intensity=1.0+near*1.8+Math.sin(t*0.004)*0.25;});
   roadFX.forEach(function(o){o.mat.opacity=0.08+0.32*(0.5+0.5*Math.sin(t*0.004-o.d*0.5));});
   // finale raketa
   if(endRocket){if(ended){const p=Math.max(0,(t-endStart)/1000);
@@ -552,8 +550,10 @@ function buildClassic(){var grid=document.getElementById('cgrid');if(grid.childE
 function openClassic(){buildClassic();document.getElementById('classic-view').classList.add('on');}
 function closeClassic(){document.getElementById('classic-view').classList.remove('on');}
 document.getElementById('classic').addEventListener('click',openClassic);
-document.getElementById('classic-x').addEventListener('click',closeClassic);
-function boot(){if(typeof THREE==='undefined'||!window.WebGLRenderingContext){document.getElementById('loader').classList.add('gone');openClassic();return;}try{build();}catch(e){document.getElementById('loader').classList.add('gone');openClassic();return;}animate(0);}
+document.getElementById('classic-x').addEventListener('click',start3D);
+var built3d=false;
+function start3D(){if(typeof THREE==='undefined'||!window.WebGLRenderingContext){alert('3D nije podrzan na ovom uredjaju (WebGL nedostupan).');return;}if(!built3d){try{build();animate(0);built3d=true;}catch(e){alert('3D se ne moze pokrenuti na ovoj grafici.');return;}}closeClassic();}
+function boot(){document.getElementById('loader').classList.add('gone');openClassic();}
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){return document.fonts&&document.fonts.load('500 80px "Clash Display"').catch(function(){});}).finally(function(){setTimeout(boot,60);});
 </script>
 </body>
