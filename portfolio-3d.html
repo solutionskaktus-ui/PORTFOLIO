@@ -16,7 +16,7 @@
   #top{position:fixed;top:24px;left:30px;right:30px;z-index:20;display:flex;justify-content:space-between;align-items:center;font-size:13px;mix-blend-mode:difference;color:#fff}
   #top .logo{font-family:"Clash Display";font-weight:500;font-size:16px;display:flex;align-items:center;gap:9px}
   #top .logo i{width:7px;height:7px;border-radius:50%;background:#4ef0a0;display:inline-block}
-  #reset{cursor:pointer;pointer-events:auto;mix-blend-mode:normal;color:#EAF0E2;border:1px solid rgba(234,240,226,.25);padding:8px 16px;border-radius:100px;font-size:13px;opacity:0;transition:.4s;background:rgba(7,10,7,.4);backdrop-filter:blur(6px)}
+  #reset{cursor:pointer;pointer-events:auto;display:inline-flex;align-items:center;white-space:nowrap;mix-blend-mode:normal;color:#EAF0E2;border:1px solid rgba(234,240,226,.25);padding:8px 16px;border-radius:100px;font-size:13px;opacity:0;transition:.4s;background:rgba(10,16,12,.92);backdrop-filter:blur(6px)}
   #reset.on{opacity:1}#reset:hover{border-color:#4ef0a0}
   #intro{position:fixed;inset:0;z-index:30;display:grid;place-content:center;text-align:center;background:radial-gradient(circle at 50% 38%,rgba(20,24,46,.35),#04050a 78%);transition:opacity 1s ease}
   #intro.gone{opacity:0;pointer-events:none}
@@ -69,8 +69,8 @@
   #loader .ring{width:54px;height:54px;border-radius:50%;border:3px solid rgba(78,240,160,.2);border-top-color:#4ef0a0;animation:spin 1s linear infinite}
   #loader .lt{font-family:"Clash Display";font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:#7d86a0}
   @keyframes spin{to{transform:rotate(360deg)}}
-  #topright{display:flex;gap:10px;align-items:center;mix-blend-mode:normal}
-  .topbtn{cursor:pointer;pointer-events:auto;color:#EAF0E2;border:1px solid rgba(234,240,226,.25);padding:8px 14px;border-radius:100px;font-size:12.5px;background:rgba(7,10,7,.4);backdrop-filter:blur(6px)}
+  #topright{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;align-items:center;mix-blend-mode:normal}
+  .topbtn{cursor:pointer;pointer-events:auto;display:inline-flex;align-items:center;white-space:nowrap;color:#EAF0E2;border:1px solid rgba(234,240,226,.25);padding:8px 14px;border-radius:100px;font-size:12.5px;background:rgba(10,16,12,.92);backdrop-filter:blur(6px)}
   .topbtn:hover{border-color:#4ef0a0}
   #classic-view{position:fixed;inset:0;z-index:70;overflow:auto;padding:96px 30px 60px;background:#070a10;opacity:0;pointer-events:none;transition:.4s}
   #classic-view.on{opacity:1;pointer-events:auto}
@@ -92,7 +92,7 @@
 <body>
 <canvas id="c"></canvas>
 <div id="vig"></div><div id="flash"></div><div id="story"><span></span></div>
-<div id="top"><span class="logo"><i></i>Aleksa Jovanovi&#263;</span><span id="topright"><span id="sound" class="topbtn">&#9834; Zvuk</span><span id="classic" class="topbtn">&#9638; Klasičan prikaz</span><span id="reset">&#8635; Promeni put</span></span></div>
+<div id="top"><span class="logo"><i></i>Aleksa Jovanovi&#263;</span><span id="topright"><span id="sound" class="topbtn">&#9834; Zvuk</span><span id="classic" class="topbtn">&#9638; Klasičan prikaz</span><span id="reset" class="topbtn" onclick="resetAll()">&#8635; Promeni put</span></span></div>
 <div id="intro">
   <div class="badge">Vizuelni dizajn</div>
   <h1>Izaberi <span class="lime">put.</span></h1>
@@ -145,7 +145,7 @@ const BRANCHES={
   social:{label:"Social Media Design",yaw:-0.42,projects:[{n:"01",name:"Super Ego Holding",cat:"Social media · Recruiting",color:0x4A90FF,desc:"Super Ego Holding — trucking lease-purchase program. Set Meta kreativa oko poruke „postani vlasnik kamiona uz $0 učešća“: jaki hook-ovi, plava paleta, jasan CTA. Izbor najjačih objava.",deliverables:["Meta Ads", "Statik", "Hook copy"],aspect:0.8,cover:"seh/00.jpg",gallery:[{src:"seh/00.jpg",cap:"Ownership Is In Your Hands"},{src:"seh/01.jpg",cap:"Infinite Possibilities"},{src:"seh/02.jpg",cap:"The Key To Ownership"},{src:"seh/03.jpg",cap:"Ready To Take The Next Step"},{src:"seh/04.jpg",cap:"Load Board — app"},{src:"seh/05.jpg",cap:"$0 Down Lease Purchase"}]},
     {n:"02",name:"Trucking",cat:"Social media · Recruiting",color:0x7AA2FF,desc:"Trucking — serija recruiting kampanja za više američkih firmi (Minnesota, PrimeRoutes, Windy City, SAP, BobbinDots, Xtreme…). Svaki klijent svoj stil, isti cilj: privući vozače. Izbor najboljih radova.",deliverables:["Recruiting", "Statik", "Više klijenata"],aspect:0.8,cover:"truck/00.jpg",gallery:[{src:"truck/00.jpg",cap:"Minnesota"},{src:"truck/01.jpg",cap:"PrimeRoutes"},{src:"truck/02.jpg",cap:"Windy City"},{src:"truck/03.jpg",cap:"SAP"},{src:"truck/04.jpg",cap:"BobbinDots"},{src:"truck/05.jpg",cap:"Xtreme"}]},
     {n:"03",name:"Fight Market",cat:"Social media · E-commerce",color:0xFF4D4D,desc:"Fight Market (fightmarket.rs) — prodavnica borilačke opreme. Objave okupljaju vodeće brendove (Booster, Fairtex, RDX, SafeJawz, Glory) u crno-crvenom, sa čistim prikazom proizvoda i jasnim porukama.",deliverables:["Statik", "Brendovi", "E-commerce"],aspect:0.75,cover:"fight/00.jpg",gallery:[{src:"fight/00.jpg",cap:"Najbolji izbor borilačke opreme"},{src:"fight/01.jpg",cap:"Booster set"},{src:"fight/02.jpg",cap:"Fairtex — Superbon"},{src:"fight/03.jpg",cap:"RDX Aura+"},{src:"fight/04.jpg",cap:"Fairtex SP5 štitnici"},{src:"fight/05.jpg",cap:"Glory"},{src:"fight/06.jpg",cap:"Booster kik-boks set"},{src:"fight/07.jpg",cap:"Booster Bangkok"},{src:"fight/08.jpg",cap:"Booster"},{src:"fight/09.jpg",cap:"Fairtex"},{src:"fight/10.jpg",cap:"SafeJawz"},{src:"fight/11.jpg",cap:"Booster SET"}]},
-    {n:"04",name:"Ostalo",cat:"Social media dizajn",color:0xC9A24B,desc:"Ostalo — Aligator Food & Drink (promo Zvonko Bogdan). Mesto za radove van prethodne tri grupe; pošalji još objava pa proširujem.",deliverables:["Statik", "Karusel", "Reels"],aspect:0.6667,cover:"ostalo/00.jpg",gallery:[{src:"ostalo/00.jpg",cap:"Aligator — Zvonko Bogdan promo"}]},
+    {n:"04",name:"Ostalo",cat:"Social media dizajn",color:0xC9A24B,desc:"Ostalo — Aligator Food & Drink (promo Zvonko Bogdan). Raznovrsni social media radovi van prethodne tri grupe — e-commerce, sport, hrana za ljubimce i recruiting.",deliverables:["Statik", "Karusel", "Reels"],aspect:0.6667,cover:"ostalo/00.jpg",gallery:[{src:"ostalo/00.jpg",cap:"Aligator — Zvonko Bogdan promo"},{src:"ostalo/01.jpg",cap:"Parfumes — Versace Dylan Blue"},{src:"ostalo/02.jpg",cap:"Druga Kuća — poslastice za pse"},{src:"ostalo/03.jpg",cap:"PLAY Sport — Nike Air Force 1"},{src:"ostalo/04.jpg",cap:"Max Miles — IFTA recruiting"}]},
     {n:"→",name:"Hajde da pričamo",cat:"zdravo@aleksajovanovic.com",color:HOLO,desc:"Treba ti kreativa koja prodaje? Pošalji poruku.",deliverables:[],end:true}]},
 };
 const FIRST=36, GAP=90;
@@ -272,7 +272,7 @@ function colony(x,z,ry){const g=new THREE.Group();g.position.set(x,0,z);if(ry)g.
   g.scale.setScalar(2.7);return g;}
 let renderer,scene,camera,raf,running=true;
 let state='idle',activeKey=null,activeYaw=0,curYaw=0,dist=0,vel=0,branchLen=0;
-let billboards=[],holos=[],roadFX=[],branchTickers=[],branchGroup=null,roadMats=[],portalMats=[],portals=[],portalLast=0,roadTarget=null,atmoOverlay=null,PORTAL_GLOW=null,PORTAL_VORTEX=null,PORTAL_DASH=null,laneColor=null,gradePass=null,carObj,dust,dustBase,floaters=[],comets=[],earth,earthClouds,SCAN_TEX,TAIL_TEX,starsBig,worldTickers=[],storyBeats=[],portalDs=[],lastDist=0,curDpr=2,fpsT=0,fpsN=0,firstFrame=true,AUD=null,muted=false;
+let billboards=[],holos=[],roadFX=[],branchTickers=[],branchGroup=null,roadMats=[],portalMats=[],portals=[],portalLast=0,roadTarget=null,BR_ASPECT=1,atmoOverlay=null,PORTAL_GLOW=null,PORTAL_VORTEX=null,PORTAL_DASH=null,laneColor=null,gradePass=null,carObj,dust,dustBase,floaters=[],comets=[],earth,earthClouds,SCAN_TEX,TAIL_TEX,starsBig,worldTickers=[],storyBeats=[],portalDs=[],lastDist=0,curDpr=2,fpsT=0,fpsN=0,firstFrame=true,AUD=null,muted=false;
 let endRocket=null,ended=false,endStart=0;
 let composer=null,bloomPass=null,envCube=null,envApplied=false,fxaaPass=null,detailTex=null;
 let roadB=null,roadS=null,starField=null,rockTex=null;
@@ -280,11 +280,15 @@ let roadB=null,roadS=null,starField=null,rockTex=null;
 function nearRoad(X,Z){for(const k in BRANCHES){const f=forward(BRANCHES[k].yaw);const t=X*f.x+Z*f.z;if(t>0&&t<640){const px=X-f.x*t,pz=Z-f.z*t;if(Math.hypot(px,pz)<7)return true;}}return false;}
 
 function makeHologram(p,d,side,parent){
-  const grp=new THREE.Group();grp.position.set(side*4.8,0,-d);grp.rotation.y=-side*0.22;
-  const base=new THREE.Mesh(new THREE.CylinderGeometry(1.0,1.3,0.44,16),new THREE.MeshStandardMaterial({color:0x14161f,flatShading:true,roughness:.45,metalness:.7}));base.position.y=0.22;grp.add(base);
-  const ringM=new THREE.MeshBasicMaterial({color:p.color||HOLO});ringM.toneMapped=false;
-  const ring=new THREE.Mesh(new THREE.CylinderGeometry(0.86,0.86,0.07,28),ringM);ring.position.y=0.46;grp.add(ring);
-  let pw,ph;var ASP=(IS_DESKTOP?(16/9):(p.aspect||0.8));if(p.cover||p.img){var mw=7.6,mh=6.6;ph=mh;pw=ph*ASP;if(pw>mw){pw=mw;ph=pw/ASP;}}else{pw=6.6;ph=3.9;}
+  const grp=new THREE.Group();grp.position.set(side*6.8,0,-d);grp.rotation.y=-side*0.3;
+  const baseG=new THREE.Group();const _bacc=p.color||HOLO;
+  const foot=new THREE.Mesh(new THREE.CylinderGeometry(1.7,1.95,0.16,48),new THREE.MeshStandardMaterial({color:0x123b29,roughness:.35,metalness:.85,flatShading:false}));foot.position.y=0.08;baseG.add(foot);
+  const body=new THREE.Mesh(new THREE.CylinderGeometry(1.15,1.5,0.34,48),new THREE.MeshStandardMaterial({color:0x16482f,roughness:.4,metalness:.8,flatShading:false}));body.position.y=0.33;baseG.add(body);
+  const trM=new THREE.MeshBasicMaterial({color:HOLO});trM.toneMapped=false;const tr=new THREE.Mesh(new THREE.TorusGeometry(1.3,0.05,16,72),trM);tr.rotation.x=Math.PI/2;tr.position.y=0.36;baseG.add(tr);
+  const topd=new THREE.Mesh(new THREE.CylinderGeometry(0.95,1.12,0.16,48),new THREE.MeshStandardMaterial({color:0x1d5a3a,roughness:.3,metalness:.85,flatShading:false}));topd.position.y=0.55;baseG.add(topd);
+  const coreM=new THREE.MeshBasicMaterial({map:softTexture('rgba(255,255,255,.8)'),color:HOLO,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false});coreM.toneMapped=false;const core=new THREE.Mesh(new THREE.CircleGeometry(0.82,40),coreM);core.rotation.x=-Math.PI/2;core.position.y=0.64;baseG.add(core);
+  grp.add(baseG);
+  let pw,ph;var ASP=(IS_DESKTOP?BR_ASPECT:(p.aspect||0.8));if(p.cover||p.img){var mw=10.5,mh=9;ph=mh;pw=ph*ASP;if(pw>mw){pw=mw;ph=pw/ASP;}}else{pw=6.6;ph=3.9;}
   const bottomY=2.3,centerY=bottomY+ph/2;
   const beamMat=new THREE.MeshBasicMaterial({color:HOLO,transparent:true,opacity:0.045,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending});beamMat.toneMapped=false;
   const beam=new THREE.Mesh(new THREE.CylinderGeometry(pw*0.4,0.6,bottomY-0.4,16,1,true),beamMat);beam.position.y=0.44+(bottomY-0.4)/2;grp.add(beam);
@@ -403,7 +407,7 @@ function roadStrip(yaw){const g=new THREE.Group();g.rotation.y=yaw;const L=620,W
   [-1,1].forEach(function(s){const line=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.05,L-12),lineM);line.position.set(s*(W/2-0.22),.08,-(L/2+10));g.add(line);});
   return g;}
 
-function buildBranch(key){clearBranch();portalMats.length=0;portals.length=0;const b=BRANCHES[key];activeKey=key;activeYaw=b.yaw;
+function buildBranch(key){clearBranch();portalMats.length=0;portals.length=0;BR_ASPECT=(key==='branding'?(16/9):(4/5));const b=BRANCHES[key];activeKey=key;activeYaw=b.yaw;
   branchGroup=new THREE.Group();branchGroup.rotation.y=b.yaw;scene.add(branchGroup);
   const n=b.projects.length;branchLen=FIRST+(n-1)*GAP+44;
   const ST=['U pra\u010dini izme\u0111u zvezda, svaki brend kre\u0107e kao iskra.','Daj joj oblik, boju i glas \u2014 i ra\u0111a se svet.','Svaki hologram je svet koji sam stvorio.','Putovanje se primi\u010de kraju\u2026','Slede\u0107i svet \u010deka da ga napravi\u0161 \u2014 tvoj.'];
@@ -494,6 +498,7 @@ document.getElementById('case').addEventListener('click',function(e){if(e.target
 addEventListener('keydown',function(e){if(e.key==='Escape')closeCase();});
 document.getElementById('ec-back').addEventListener('click',resetAll);
 document.getElementById('reset').addEventListener('click',resetAll);
+document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('#reset'))resetAll();},true);
 
 function choose(key){audioInit();if(AUD&&AUD.ctx.state==='suspended')AUD.ctx.resume();buildBranch(key);state='driving';dist=0;vel=0;curYaw=0;portalLast=0;roadTarget=null;laneColor=null;lastDist=0;
   document.getElementById('intro').classList.add('gone');document.getElementById('hud').classList.add('on');
