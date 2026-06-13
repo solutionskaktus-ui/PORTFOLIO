@@ -180,7 +180,7 @@
 <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/VignetteShader.js"></script>
 <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/FilmPass.js"></script>
 <script>
-console.log('%cPORTFOLIO BUILD: v4-bootfix','color:#4ef0a0;font-weight:bold');
+
 
 const C={dark:0x04050a};
 const HOLO=0x4ef0a0, CY=0x46d9ff, FLAME=0xff7a1a;
@@ -399,7 +399,7 @@ function portalRing(d,parent,col){col=(col===undefined?HOLO:col);
   const pl=new THREE.PointLight(col,1.6,30,2);g.add(pl);
   parent.add(g);portalDs.push(d);
   portals.push({g:g,wave:wave,waveM:waveM,pl:pl,mem:memM,d:d,flash:0,col:col});
-  branchTickers.push(function(t){memU.uT.value=t*0.001;glowM.opacity=.24+.08*Math.sin(t*0.004+d);oRing.rotation.z=Math.PI/8+t*0.00005;rim2.rotation.z=-t*0.00006;stripM.opacity=.62+.25*Math.sin(t*0.005+d);thrM.opacity=.65+.25*Math.sin(t*0.005+d);padM.opacity=.4+.14*Math.sin(t*0.004+d);});}
+  branchTickers.push(function(t){memU.uT.value=t*0.001;glowM.opacity=.24+.08*Math.sin(t*0.004+d);oRing.rotation.z=Math.PI/8+t*0.00005;rim2.rotation.z=-t*0.00006;stripM.opacity=.62+.25*Math.sin(t*0.005+d);thrM.opacity=.65+.25*Math.sin(t*0.005+d);});}
 function dataCrystal(x,z,parent){const g=new THREE.Group();g.position.set(x,3+Math.random()*2,-z);
   const cm=new THREE.MeshStandardMaterial({color:HOLO,emissive:HOLO,emissiveIntensity:.6,metalness:.3,roughness:.1,transparent:true,opacity:.85,flatShading:true});
   const cr=new THREE.Mesh(new THREE.OctahedronGeometry(0.9+Math.random()*0.7,0),cm);cr.scale.y=1.5;g.add(cr);
@@ -681,7 +681,7 @@ document.getElementById('classic').addEventListener('click',openClassic);
 document.getElementById('classic-x').addEventListener('click',start3D);
 var built3d=false;
 function start3D(){if(typeof THREE==='undefined'||!window.WebGLRenderingContext){alert('3D nije podrzan na ovom uredjaju (WebGL nedostupan).');return;}if(!built3d){try{build();animate(0);built3d=true;}catch(e){window.__3dErr=e;console.error(e);alert('3D ne moze da se pokrene:\n'+(e&&e.message?e.message:e));return;}}closeClassic();}
-function boot(){try{Object.keys(BRANCHES).forEach(function(k){(BRANCHES[k].projects||[]).forEach(function(p){if(p.cover){var _pi=new Image();_pi.src=p.cover;}});});}catch(e){}document.getElementById('loader').classList.add('gone');var I=document.getElementById('intro');if(I)I.classList.remove('gone');if(typeof THREE!=='undefined'&&window.WebGLRenderingContext){try{build();built3d=true;}catch(e){built3d=false;window.__3dErr=e;console.error('build failed',e);}try{animate(0);}catch(e2){window.__animErr=e2;console.error('animate frame0',e2);}}}
+function boot(){try{Object.keys(BRANCHES).forEach(function(k){(BRANCHES[k].projects||[]).forEach(function(p){if(p.cover){var _pi=new Image();_pi.src=p.cover;}});});}catch(e){}document.getElementById('loader').classList.add('gone');var I=document.getElementById('intro');if(I)I.classList.remove('gone');if(typeof THREE!=='undefined'&&window.WebGLRenderingContext){try{build();animate(0);built3d=true;}catch(e){built3d=false;window.__3dErr=e;console.error(e);}}}
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){return document.fonts&&document.fonts.load('500 80px "Clash Display"').catch(function(){});}).finally(function(){setTimeout(boot,60);});
 
 (function(){try{var IL=document.getElementById('intro');if(!IL)return;var IMGS=['seh/cover2.jpg','aim/cover2.jpg','k7/cover2.jpg','truck/cover3.jpg','ostalo/03.jpg','seh/12.jpg','truck/11.jpg','aim/p04.jpg','toxic/mock09.jpg','fight/02.jpg','k7/mock06.jpg','seh/15.jpg','truck/14.jpg','aim/p21.jpg','toxic/s24.jpg','fight/07.jpg','ostalo/01.jpg','k7/std12.jpg'];for(var i=IMGS.length-1;i>0;i--){var j=(Math.random()*(i+1))|0;var tm=IMGS[i];IMGS[i]=IMGS[j];IMGS[j]=tm;}function mk(id,arr){var w=document.createElement('div');w.id=id;var c=document.createElement('div');c.className='pscol';arr.concat(arr).forEach(function(s){var im=document.createElement('img');im.src=s;im.loading='lazy';im.alt='';c.appendChild(im);});w.appendChild(c);IL.insertBefore(w,IL.firstChild);}mk('pstripL',IMGS.slice(0,9));mk('pstripR',IMGS.slice(9,18));}catch(e){}})();
