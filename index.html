@@ -462,7 +462,7 @@ function rocketFinale(d,parent){const g=new THREE.Group();g.position.set(0,0,-d)
   endRocket={rocket:rk,flame:flame,flame2:flame2,burst:burst,light:slight,padY:0.6,launchD:d};}
 function roadStrip(yaw,len){const g=new THREE.Group();g.rotation.y=yaw;const L=(len||620),W=4.6;
   const road=new THREE.Mesh(new THREE.PlaneGeometry(W,L),new THREE.MeshBasicMaterial({map:roadGlowTexture(),color:HOLO,transparent:true,opacity:0.95,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));road.material.toneMapped=false;roadMats.push(road.material);road.rotation.x=-Math.PI/2;road.position.set(0,.04,-(L/2+10));g.add(road);
-  (function(){var hw1=5.3,hw2=W/2,z1=-10.5,z2=-52;var fl=new THREE.BufferGeometry();fl.setAttribute('position',new THREE.BufferAttribute(new Float32Array([-hw1,0,z1, hw1,0,z1, hw2,0,z2, -hw1,0,z1, hw2,0,z2, -hw2,0,z2]),3));fl.setAttribute('uv',new THREE.BufferAttribute(new Float32Array([0,0,1,0,1,1,0,0,1,1,0,1]),2));fl.computeVertexNormals();var flm=road.material.clone();flm.opacity=0.8;roadMats.push(flm);var flM=new THREE.Mesh(fl,flm);flM.position.y=0.035;g.add(flM);})();
+  
   const lineM=new THREE.MeshBasicMaterial({color:HOLO});roadMats.push(lineM);lineM.toneMapped=false;
   [-1,1].forEach(function(s){const line=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.05,L-12),lineM);line.position.set(s*(W/2-0.22),.08,-(L/2+10));g.add(line);});
   return g;}
