@@ -2,10 +2,10 @@
 <html lang="sr">
 <head>
 <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Aleksa Jovanovi&#263; - portfolio</title>
-<meta name="description" content="Interaktivni 3D portfolio — brend identiteti i social media dizajn. Prošetaj svemirskim koridorom projekata." />
-<meta property="og:title" content="Aleksa Jovanović — 3D Portfolio" />
-<meta property="og:description" content="Interaktivni 3D portfolio — brend identiteti i social media dizajn. Prošetaj svemirskim koridorom projekata." />
+<title>Aleksa Jovanović | Portfolio</title>
+<meta name="description" content="Portfolio - brend identitet i performance dizajn. Pregledaj radove." />
+<meta property="og:title" content="Aleksa Jovanović | Portfolio" />
+<meta property="og:description" content="Portfolio - brend identitet i performance dizajn. Pregledaj radove." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://solutionskaktus-ui.github.io/PORTFOLIO/portfolio-3d.html" />
 <meta property="og:image" content="https://solutionskaktus-ui.github.io/PORTFOLIO/aim/p01.jpg" />
@@ -136,12 +136,36 @@
 #lb-prev:hover,#lb-next:hover{background:rgba(78,240,160,.18)}
 @media(max-width:700px){#lb-prev,#lb-next{width:40px;height:40px;font-size:24px}}
 #case-gallery .case-imgs img{cursor:zoom-in}
-#greenedge{position:fixed;inset:0;z-index:55;pointer-events:none;box-shadow:inset 0 0 140px 10px rgba(78,240,160,0.06),inset 0 0 40px 0 rgba(78,240,160,0.04);opacity:0;transition:opacity 1.2s}#greenedge.on{opacity:1}</style>
+#greenedge{position:fixed;inset:0;z-index:55;pointer-events:none;box-shadow:inset 0 0 140px 10px rgba(78,240,160,0.06),inset 0 0 40px 0 rgba(78,240,160,0.04);opacity:0;transition:opacity 1.2s}#greenedge.on{opacity:1}
+/* === MOBILE LAYOUT POLISH === */
+@media(max-width:640px){
+  /* name on ONE line, top-left; buttons stacked vertically & smaller on the right */
+  #top{top:14px;left:14px;right:14px;align-items:flex-start}
+  .logo{font-size:14px;white-space:nowrap;flex-shrink:0;max-width:52vw;overflow:hidden;text-overflow:ellipsis}
+  #topright{flex-direction:column;align-items:flex-end;gap:7px;flex-wrap:nowrap}
+  .topbtn{padding:5px 10px;font-size:10px;border-radius:100px}
+  /* intro hero: more breathing room, push content apart */
+  #intro{place-content:start center;padding-top:15vh}
+  #intro h1{font-size:clamp(38px,12vw,60px)}
+  .badge{margin-bottom:18px;font-size:11px}
+  #intro .sub{margin-bottom:8px}
+  .choices{margin-top:8vh;gap:18px}
+  .road-btn{padding:16px 22px;min-width:0;width:78vw;max-width:330px}
+  /* drive instructions + progress pushed further DOWN while driving */
+  #drive-hint{bottom:118px!important;font-size:10.5px!important}
+  #prog{bottom:74px!important;width:90vw!important}
+  #hud{bottom:14px}
+}
+@media(max-width:640px) and (max-height:740px){
+  #intro{padding-top:16vh}
+  .choices{margin-top:24px}
+}
+</style>
 </head>
 <body>
 <div id="greenedge"></div>
 <div id="introglow" style="position:fixed;inset:0;z-index:54;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 46%,transparent 30%,rgba(0,0,0,0.6) 100%);transition:opacity .3s"></div>
-<div id="buildbadge" style="position:fixed;left:6px;bottom:4px;z-index:9999;font:10px monospace;color:rgba(110,255,192,.55);pointer-events:none;user-select:none">BUILD v2202</div>
+<div id="buildbadge" style="position:fixed;left:6px;bottom:4px;z-index:9999;font:10px monospace;color:rgba(110,255,192,.55);pointer-events:none;user-select:none">BUILD v0142</div>
 
 <canvas id="c"></canvas>
 <div id="vig"></div><div id="flash"></div><div id="story"><span></span></div>
@@ -513,7 +537,7 @@ function build(){
   scene=new THREE.Scene();scene.background=new THREE.Color(C.dark);scene.fog=new THREE.FogExp2(0x08231c,0.0058);try{var ggt=document.createElement('canvas');ggt.width=ggt.height=256;var ggx=ggt.getContext('2d');var ggg=ggx.createRadialGradient(128,128,0,128,128,128);ggg.addColorStop(0,'rgba(78,240,160,0.5)');ggg.addColorStop(0.5,'rgba(78,240,160,0.15)');ggg.addColorStop(1,'rgba(78,240,160,0)');ggx.fillStyle=ggg;ggx.fillRect(0,0,256,256);var ggm=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(ggt),transparent:true,opacity:0.1,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});ggm.toneMapped=false;window.GGLOW=new THREE.Mesh(new THREE.PlaneGeometry(300,300),ggm);GGLOW.rotation.x=-Math.PI/2;GGLOW.position.set(0,0.2,-40);scene.add(GGLOW);}catch(e){}
   camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,4000);
   renderer=new THREE.WebGLRenderer({canvas:document.getElementById('c'),antialias:true});
-  curDpr=Math.min(devicePixelRatio,IS_MOBILE?3:2);renderer.setPixelRatio(curDpr);window.ANISO=renderer.capabilities.getMaxAnisotropy();renderer.setSize(innerWidth,innerHeight);
+  curDpr=Math.min(devicePixelRatio,IS_MOBILE?2:2);renderer.setPixelRatio(curDpr);window.ANISO=renderer.capabilities.getMaxAnisotropy();renderer.setSize(innerWidth,innerHeight);
   if(THREE.sRGBEncoding)renderer.outputEncoding=THREE.sRGBEncoding;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.4;
   try{envCube=makeEnvCube();if(envCube)scene.environment=envCube;}catch(e){envCube=null;}
@@ -671,7 +695,7 @@ function animate(t){raf=requestAnimationFrame(animate);if(!running)return;
   updateHud();if(starField)starField.position.copy(camera.position);if(composer&&!IS_MOBILE){var _cv=window.COVERS||[];for(var _i=0;_i<_cv.length;_i++)_cv[_i].visible=false;composer.render(0.016);if(_cv.length){var _ac=renderer.autoClear;renderer.autoClear=false;renderer.clearDepth();for(var _j=0;_j<_cv.length;_j++)_cv[_j].visible=true;var _fog=scene.fog;scene.fog=null;renderer.render(scene,camera);scene.fog=_fog;renderer.autoClear=_ac;}}else{renderer.render(scene,camera);}
   if(firstFrame){firstFrame=false;document.getElementById('loader').classList.add('gone');}
   if(!envApplied){envApplied=true;scene.traverse(function(o){if(o.material&&o.material.isMeshStandardMaterial){o.material.envMapIntensity=(o.material.metalness>0.25?1.0:0.15);o.material.flatShading=false;if(detailTex&&o.material.metalness>0.25){o.material.normalMap=detailTex.normal;o.material.normalScale=new THREE.Vector2(0.3,0.3);o.material.roughnessMap=detailTex.rough;}o.material.needsUpdate=true;}});}
-  fpsN++;if(t-fpsT>1000){var _fps=fpsN*1000/(t-fpsT);fpsN=0;fpsT=t;if(!IS_MOBILE&&_fps<34&&curDpr>1.25){curDpr=_fps<24?1.25:1.5;renderer.setPixelRatio(curDpr);if(composer)composer.setSize(innerWidth,innerHeight);if(fxaaPass)fxaaPass.material.uniforms['resolution'].value.set(1/(innerWidth*curDpr),1/(innerHeight*curDpr));}}}
+  fpsN++;if(t-fpsT>1000){var _fps=fpsN*1000/(t-fpsT);fpsN=0;fpsT=t;if(_fps<34&&curDpr>1.2){curDpr=_fps<24?1.2:1.5;renderer.setPixelRatio(curDpr);if(composer)composer.setSize(innerWidth,innerHeight);if(fxaaPass)fxaaPass.material.uniforms['resolution'].value.set(1/(innerWidth*curDpr),1/(innerHeight*curDpr));}}}
 addEventListener('resize',function(){if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);if(composer)composer.setSize(innerWidth,innerHeight);if(fxaaPass){var _p=renderer.getPixelRatio();fxaaPass.material.uniforms['resolution'].value.set(1/(innerWidth*_p),1/(innerHeight*_p));}});
 document.addEventListener('visibilitychange',function(){running=!document.hidden;});
 function audioInit(){if(AUD)return;try{var Ctx=window.AudioContext||window.webkitAudioContext;var ctx=new Ctx();
